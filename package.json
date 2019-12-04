@@ -1,0 +1,21 @@
+{
+  "name": "after-sale-system",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "export NODE_ENV=development&&nodemon ./bin/www",
+    "start": "export NODE_ENV=production&&nodemon ./bin/www",
+    "run": "DEBUG=passport-server:* npm start",
+    "pm2": "export NODE_ENV=production&&pm2 start ./bin/www -i max"
+  },
+  "dependencies": {
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.7.13",
+    "morgan": "~1.9.1",
+    "pug": "2.0.0-beta11"
+  }
+}
