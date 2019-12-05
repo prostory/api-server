@@ -58,9 +58,11 @@ router.post('/', function (req, res, next) {
                     if (req.body._id) {
                         Instruction.findByPhoneId(req.body._id, function (err, result) {
                             if (result.length !== 0) {
+                                var md5 = crypto.createHash('md5');
                                 var objs = result.map((data)=> {
                                     var obj = data.toObject();
                                     obj.phone_id = phone._id;
+                                    obj.unique = md5.update(obj.phone_id.toString() + obj.lang).digest('hex');
                                     delete obj._id;
                                     (obj.banners || []).forEach((banner)=> {
                                         delete banner._id;

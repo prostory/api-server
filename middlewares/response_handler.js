@@ -9,7 +9,7 @@ module.exports = function (req, res, next) {
             res.json({status: 2, message: message, reason: reason});
         }
     };
-    res.return = function (message, data) {
+    res.return = function (message, data = {}) {
         if (data.n === 0 && data.ok === 1) {
             if (data.deletedCount === 0) {
                 res.json({status: 3, message: 'Delete nothing', data: data});
