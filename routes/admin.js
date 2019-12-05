@@ -19,4 +19,10 @@ router.post('/login', function (req, res, next) {
     }
 });
 
+router.post('/check', function (req, res, next) {
+    jwt.verifyLogin(req, res, function () {
+        res.return('Login successfully');
+    });
+});
+
 module.exports = router;
