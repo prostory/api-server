@@ -10,6 +10,7 @@ selenium-debug.log
 build/
 package-lock.json
 public/upload/
+public/readme.html
 log/
 pids/
 
