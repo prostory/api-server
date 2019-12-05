@@ -54,7 +54,7 @@ router.post('/', function (req, res, next) {
                 warranty_duration: req.body.warranty_duration
             });
             phone.save(function (err, phone) {
-                if (result) {
+                if (phone) {
                     if (req.body._id) {
                         Instruction.findByPhoneId(req.body._id, function (err, result) {
                             if (result.length !== 0) {
