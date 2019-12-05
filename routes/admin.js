@@ -5,14 +5,14 @@ var admin = require('../common/global').admin;
 
 router.post('/login', function (req, res, next) {
     if (!req.body.username) {
-        res.error('用户名为空');
+        res.error('Username is empty');
     } else if (!req.body.password) {
-        res.error('密码为空');
+        res.error('Password is empty');
     } else if (admin.username !== req.body.username
         || admin.password !== req.body.password) {
-        res.error('用户名或密码错误');
+        res.error('Wrong username or password');
     } else {
-        res.return('登录成功', {
+        res.return('Login successfully', {
             token: jwt.generateToken({user: admin.username}),
             user: admin.username
         });

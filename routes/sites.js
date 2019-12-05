@@ -6,9 +6,9 @@ var Site = require('../models/site');
 router.get('/', function (req, res, next) {
     Site.findAll(function (err, result) {
         if (err) {
-            res.error('查询失败', err);
+            res.error('Query failed', err);
         } else {
-            res.return('查询成功', result);
+            res.return('Query successfully', result);
         }
     })
 });
@@ -16,11 +16,11 @@ router.get('/', function (req, res, next) {
 router.post('/', function (req, res, next) {
     jwt.verifyLogin(req, res, function () {
         if (!req.body.name) {
-            res.error('名称为空');
+            res.error('Name is empty');
         } else if (!req.body.address) {
-            res.error('地址为空');
+            res.error('Address is empty');
         } else if (!req.body.long || !req.body.lat) {
-            res.error('经纬度为空');
+            res.error('Longitude or latitude is empty');
         } else {
             var site = new Site({
                 name: req.body.name,
@@ -30,9 +30,9 @@ router.post('/', function (req, res, next) {
             });
             site.save(function (err, result) {
                 if (result) {
-                    res.return('创建成功', result);
+                    res.return('Create successfully', result);
                 } else {
-                    res.error('创建失败');
+                    res.error('Create failed');
                 }
             });
         }
@@ -42,11 +42,11 @@ router.post('/', function (req, res, next) {
 router.put('/:id', function (req, res, next) {
     jwt.verifyLogin(req, res, function () {
         if (!req.body.name) {
-            res.error('名称为空');
+            res.error('Name is empty');
         } else if (!req.body.address) {
-            res.error('地址为空');
+            res.error('Address is empty');
         } else if (!req.body.long || !req.body.lat) {
-            res.error('经纬度为空');
+            res.error('Longitude or latitude is empty');
         } else {
             Site.updateInfo(req.params.id, {
                 name: req.body.name,
@@ -55,9 +55,9 @@ router.put('/:id', function (req, res, next) {
                 lat: req.body.lat
             }, function (err, result) {
                 if (result) {
-                    res.return('更新成功', result);
+                    res.return('Update Successfully', result);
                 } else {
-                    res.error('更新失败');
+                    res.error('Update failed');
                 }
             });
         }
@@ -68,9 +68,9 @@ router.delete('/:id', function (req, res, next) {
     jwt.verifyLogin(req, res, function () {
         Site.deleteById(req.params.id, function (err, result) {
             if (result) {
-                res.return('删除成功', result);
+                res.return('Delete successfully', result);
             } else {
-                res.error('删除失败');
+                res.error('Delete failed');
             }
         });
     });

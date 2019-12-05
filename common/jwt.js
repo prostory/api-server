@@ -12,6 +12,7 @@ function generateToken(data, duration = 3600) {
         overdue: created + duration
     }, private_cert, {algorithm: 'RS256'});
 }
+
 function verifyToken(token, callback) {
     try {
         var result = jwt.verify(token, public_cert, {algorithm: ['RS256']}) || {};
@@ -26,11 +27,12 @@ function verifyToken(token, callback) {
     } catch (e) {
     }
 }
+
 function verifyLogin(req, res, next) {
     if (!req.headers.token) {
-        res.verifyError('请先登录');
+        res.verifyError('Please login first');
     } else if (!verifyToken(req.headers.token)) {
-        res.verifyError('登录已过期，请重新登录');
+        res.verifyError('Login has expired, please login again');
     } else {
         next();
     }
@@ -38,6 +40,5 @@ function verifyLogin(req, res, next) {
 
 module.exports = {
     generateToken,
-    verifyToken,
     verifyLogin
 }

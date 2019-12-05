@@ -17,10 +17,10 @@ Site.statics.updateInfo = function (id, data, callback) {
     delete data._id
     data.updated_at = Date.now()
     this.updateOne({_id: id}, data, callback);
-}
+};
 
 Site.statics.deleteById = function (id, callback) {
-    this.deleteOne({_id: id}, callback)
-}
+    this.deleteOne({_id: id}, callback);
+};
 
 module.exports = mongoose.model('site', Site);

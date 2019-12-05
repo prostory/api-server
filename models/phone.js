@@ -1,6 +1,7 @@
 var mongoose = require('../common/db');
 
 var Phone = new mongoose.Schema({
+    unique: {type: String, required: true, unique: true},
     brand: {type: String, required: true},
     model: {type: String, required: true},
     appearance: {type: String, default: ''},
@@ -23,10 +24,10 @@ Phone.statics.updateInfo = function (id, data, callback) {
     delete data._id
     data.updated_at = Date.now()
     this.updateOne({_id: id}, data, callback);
-}
+};
 
 Phone.statics.deleteById = function (id, callback) {
-    this.deleteOne({_id: id}, callback)
-}
+    this.deleteOne({_id: id}, callback);
+};
 
 module.exports = mongoose.model('phone', Phone);
