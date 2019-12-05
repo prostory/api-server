@@ -41,7 +41,7 @@ app.all('/api/*', function (req, res, next) {
 app.use('/api', express.static(path.join(__dirname, 'public')));
 
 app.use('/api/', indexRouter);
-app.use('/api/public/upload', uploadRouter);
+app.use('/api/', uploadRouter);
 
 // after sale system
 app.use('/api/after-sale/admin', adminRouter);

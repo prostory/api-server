@@ -8,7 +8,7 @@ var sharp = require('sharp');
 var sizeOf = require('image-size');
 var global = require('../common/global')
 
-router.post('/', function (req, res, next) {
+router.post('/upload/', function (req, res, next) {
     var form = new formidable.IncomingForm();
     form.encoding = 'utf-8';
     form.uploadDir = 'public/upload/images/' + date() + '/';
@@ -40,7 +40,7 @@ router.post('/', function (req, res, next) {
     });
 });
 
-router.get('/images/*', function (req, res, next) {
+router.get('/public/upload/images/*', function (req, res, next) {
     var query = req.query;
     var source = req.path.substr(1);
     var path = pathParser.parse(source);
@@ -70,7 +70,7 @@ router.get('/images/*', function (req, res, next) {
     }
 });
 
-router.delete('/images/*', function (req, res, next) {
+router.delete('/upload/images/*', function (req, res, next) {
     var path = req.url
     fs.exists(path, function (exists) {
         if (exists) {
