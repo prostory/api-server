@@ -1,11 +1,11 @@
 {
-  "name": "after-sale-system",
+  "name": "api-server",
   "version": "0.1.0",
   "private": true,
   "scripts": {
     "dev": "export NODE_ENV=development&&nodemon ./bin/www",
     "start": "export NODE_ENV=production&&nodemon ./bin/www",
-    "run": "DEBUG=after-sale-system:server:* npm start",
+    "run": "DEBUG=api-server:server:* npm start",
     "pm2": "export NODE_ENV=production&&pm2 start ./bin/www -i max"
   },
   "dependencies": {

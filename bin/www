@@ -5,7 +5,7 @@
  */
 
 var app = require('../app');
-var debug = require('debug')('after-sale-system:server');
+var debug = require('debug')('api-server:server');
 var http = require('http');
 
 /**
