@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "export NODE_ENV=development&&nodemon ./bin/www",
     "start": "export NODE_ENV=production&&nodemon ./bin/www",
-    "run": "DEBUG=passport-server:* npm start",
+    "run": "DEBUG=after-sale-system:server:* npm start",
     "pm2": "export NODE_ENV=production&&pm2 start ./bin/www -i max"
   },
   "dependencies": {
