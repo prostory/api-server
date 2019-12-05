@@ -6,7 +6,7 @@ root: [http://106.54.193.117/api/](http://106.54.193.117/api/)
 
 接口地址拼接规则：root + function
 
-例如：上传文件的接口：http://106.54.193.117/api/upload
+例如：上传文件的接口：`http://106.54.193.117/api/upload`
 
 返回值定义如下：
 
@@ -28,13 +28,13 @@ root: [http://106.54.193.117/api/](http://106.54.193.117/api/)
 |  GET   | /public/upload/images/* | ?[ext, x, y, quality] |  {file}  | 获取指定格式(ext)、大小(x/y)、质量(quality)的图片 |
 | DELETE | /public/upload/images/* |        {token}        |    {}    | 删除指定文件                                      |
 
-> 可通过http://106.54.193.117/api/public/upload/images/2019/11/28/xxx.jpg?ext=webp&x=500&quality=80，获取宽度为500，质量为80%的webp格式的图片
+> 可通过`http://106.54.193.117/api/public/upload/images/2019/11/28/xxx.jpg?ext=webp&x=500&quality=80`，获取宽度为500，质量为80%的webp格式的图片
 
 ### 售后系统
 
 接口地址拼接规则：root + 'after-sale/' + model
 
-例如：管理员登录的接口：http://106.54.193.117/api/after-sale/admin/login
+例如：管理员登录的接口：`http://106.54.193.117/api/after-sale/admin/login`
 
 返回值格式：
 
