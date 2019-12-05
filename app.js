@@ -5,6 +5,7 @@ var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
+var uploadRouter = require('./routes/upload');
 var adminRouter = require('./routes/admin');
 var sitesRouter = require('./routes/sites');
 var phonesRouter = require('./routes/phones');
@@ -27,7 +28,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 // 允许跨域
-app.all('/api/after-sale/*', function (req, res, next) {
+app.all('/api/*', function (req, res, next) {
     res.header("Access-Control-Allow-Origin","*");
     res.header("Access-Control-Allow-Headers","content-type");
     res.header("Access-Control-Allow-Methods","DELETE,PUT,POST,GET,OPTIONS");
@@ -37,9 +38,12 @@ app.all('/api/after-sale/*', function (req, res, next) {
         next();
 });
 
-app.use('/api/after-sale', express.static(path.join(__dirname, 'public')));
+app.use('/api', express.static(path.join(__dirname, 'public')));
 
-app.use('/api/after-sale/', indexRouter);
+app.use('/api/', indexRouter);
+app.use('/api/public/upload', uploadRouter);
+
+// after sale system
 app.use('/api/after-sale/admin', adminRouter);
 app.use('/api/after-sale/sites', sitesRouter);
 app.use('/api/after-sale/phones', phonesRouter);
