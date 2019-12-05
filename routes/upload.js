@@ -1,5 +1,6 @@
 var express = require('express');
 var router = express.Router();
+var jwt = require('../common/jwt');
 var formidable = require('formidable');
 var moment = require('moment');
 var fs = require('fs');
@@ -33,9 +34,9 @@ router.post('/upload/', function (req, res, next) {
 
     form.parse(req, function (err, fields) {
         if (err) {
-            res.json({status: 1, message: '上传失败'});
+            res.error('Upload failed', err);
         } else {
-            res.json({status: 0, message: '上传成功', data: files});
+            res.return('Upload successfully', files);
         }
     });
 });
@@ -70,20 +71,22 @@ router.get('/public/upload/images/*', function (req, res, next) {
     }
 });
 
-router.delete('/upload/images/*', function (req, res, next) {
-    var path = req.url
-    fs.exists(path, function (exists) {
-        if (exists) {
-            fs.unlink(path, function (err) {
-                if (err) {
-                    res.json({status: 1, message: err.message});
-                } else {
-                    res.json({status: 0, message: '删除成功'});
-                }
-            });
-        } else {
-            res.json({status: 1, message: '文件不存在'});
-        }
+router.delete('/public/upload/images/*', function (req, res, next) {
+    jwt.verifyLogin(req, res, function () {
+        var path = req.url
+        fs.exists(path, function (exists) {
+            if (exists) {
+                fs.unlink(path, function (err) {
+                    if (err) {
+                        res.error('Delete failed', err);
+                    } else {
+                        res.return('Delete successfully');
+                    }
+                });
+            } else {
+                res.error('File is not exist');
+            }
+        });
     });
 });
 
