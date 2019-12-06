@@ -16,6 +16,20 @@ router.get('/', function (req, res, next) {
     })
 });
 
+router.get('/latest', function (req, res, next) {
+    Phone.findLatestPublish(function (err, result) {
+        if (err) {
+            res.error('Query failed', err);
+        } else {
+            if (result.length === 0) {
+                res.error('Query result does not exist');
+            } else {
+                res.return('Query successfully', result);
+            }
+        }
+    })
+});
+
 router.get('/:id', function (req, res, next) {
     Phone.findById(req.params.id, function (err, result) {
         if (result) {

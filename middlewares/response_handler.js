@@ -10,7 +10,7 @@ module.exports = function (req, res, next) {
         }
     };
     res.return = function (message, data = {}) {
-        if (data.n === 0 && data.ok === 1) {
+        if (data.n === 0 && data.ok !== undefined) {
             if (data.deletedCount === 0) {
                 res.json({status: 3, message: 'Delete nothing', data: data});
             } else if (data.nModified === 0) {

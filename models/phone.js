@@ -16,6 +16,10 @@ Phone.statics.findAll = function (callback) {
     this.find({}, callback);
 };
 
+Phone.statics.findLatestPublish = function (callback) {
+    this.find().sort({ publish: -1 }).limit(1).exec(callback)
+}
+
 Phone.statics.findByBrandAndModel = function (brand, model, callback) {
     this.findOne({brand: brand, model: model}, callback);
 };
