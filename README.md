@@ -79,6 +79,7 @@ root: [http://106.54.193.117/api/](http://106.54.193.117/api/)
 |  方法  |      接口      |                             参数                             |  返回值   | 功能                         |
 | :----: | :------------: | :----------------------------------------------------------: | :-------: | ---------------------------- |
 |  GET   |       /        |                              {}                              | [{Phone}] | 获取所有手机信息             |
+|  GET   |    /latest     |                              {}                              |  {Phone}  | 获取最近发布的手机信息       |
 |  GET   |      /:id      |                              {}                              |  {Phone}  | 获取指定id的手机信息         |
 |  GET   | /:brand/:model |                              {}                              |  {Phone}  | 获取指定品牌和型号的手机信息 |
 |  POST  |       /        | {token, brand, model, [appearance, publish, published, warranty_duration]} |  {Phone}  | 创建新的手机                 |
