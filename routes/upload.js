@@ -24,7 +24,7 @@ router.post('/upload/', function (req, res, next) {
     form.on('file', function (field, file) {
         var dimensions = sizeOf(file.path)
         files.push({
-            url: global.domain + file.path,
+            url: global.base_url + file.path,
             width: dimensions.width,
             height: dimensions.height,
             filed: field,

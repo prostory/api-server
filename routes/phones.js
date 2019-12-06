@@ -24,7 +24,7 @@ router.get('/latest', function (req, res, next) {
             if (result.length === 0) {
                 res.error('Query result does not exist');
             } else {
-                res.return('Query successfully', result);
+                res.return('Query successfully', result[0]);
             }
         }
     })
