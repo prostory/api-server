@@ -13,7 +13,7 @@ router.post('/login', function (req, res, next) {
         res.error('Wrong username or password');
     } else {
         res.return('Login successfully', {
-            token: jwt.generateToken({user: admin.username}),
+            token: jwt.generateToken({user: admin.username}, 12),
             user: admin.username
         });
     }

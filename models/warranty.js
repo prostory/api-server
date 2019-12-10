@@ -12,8 +12,8 @@ var Warranty = new mongoose.Schema({
 
 Warranty.index({imei: 1, created_at: -1});
 
-Warranty.statics.findAll = function (callback) {
-    this.find({}, callback);
+Warranty.statics.fetch = function (filter, skip, limit, sort, callback) {
+    this.find(filter).skip(skip).limit(limit).sort(sort).exec(callback);
 };
 
 Warranty.statics.findByPhoneId = function(phone_id, callback) {

@@ -20,6 +20,22 @@ router.get('/', function (req, res, next) {
 });
 
 /**
+ * 返回指定id的电子说明书
+ */
+router.get('/:id', function (req, res, next) {
+    Instruction.findById(req.params.id).populate('phone_id').exec(function (err, result) {
+        if (result) {
+            let data = result.toObject();
+            data.phone = data.phone_id;
+            data.phone_id = data.phone._id;
+            res.return('Query successfully', data);
+        } else {
+            res.error('Query result does not exist');
+        }
+    })
+});
+
+/**
  * 返回指定id的手机的电子说明书
  */
 router.get('/items/:id', function (req, res, next) {

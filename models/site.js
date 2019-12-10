@@ -10,7 +10,11 @@ var Site = new mongoose.Schema({
 });
 
 Site.statics.findAll = function (callback) {
-    this.find({}, callback);
+    this.find({}).select('_id name').exec(callback);
+};
+
+Site.statics.fetch = function (filter, skip, limit, sort, callback) {
+    this.find(filter).skip(skip).limit(limit).sort(sort).exec(callback);
 };
 
 Site.statics.updateInfo = function (id, data, callback) {

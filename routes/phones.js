@@ -78,6 +78,8 @@ router.post('/', function (req, res, next) {
                                     obj.phone_id = phone._id;
                                     obj.unique = md5.update(obj.phone_id.toString() + obj.lang).digest('hex');
                                     delete obj._id;
+                                    delete obj.created_at;
+                                    delete obj.updated_at;
                                     (obj.banners || []).forEach((banner)=> {
                                         delete banner._id;
                                     });

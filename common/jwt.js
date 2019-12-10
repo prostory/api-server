@@ -5,11 +5,11 @@ var jwt = require('jsonwebtoken');
 var private_cert = fs.readFileSync(path.join(__dirname, '../pem/private_key.pem'));
 var public_cert = fs.readFileSync(path.join(__dirname, '../pem/public_key.pem'));
 
-function generateToken(data, duration = 3600) {
+function generateToken(data, duration = 1) {
     var created = Math.floor(Date.now() / 1000);
     return jwt.sign({
         data: data,
-        overdue: created + duration
+        overdue: created + duration * 3600
     }, private_cert, {algorithm: 'RS256'});
 }
 

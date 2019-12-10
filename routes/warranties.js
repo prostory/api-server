@@ -4,18 +4,6 @@ var jwt = require('../common/jwt');
 var Warranty = require('../models/warranty');
 var Phone = require('../models/phone');
 
-router.get('/', function (req, res, next) {
-    jwt.verifyLogin(req, res, function () {
-        Warranty.findAll(function (err, result) {
-            if (err) {
-                res.error('Query failed', err);
-            } else {
-                res.return('Query successfully', result);
-            }
-        });
-    });
-});
-
 router.get('/imei/:imei', function (req, res, next) {
     Warranty.findByImei(req.params.imei, function (err, result) {
         if (result) {
@@ -101,6 +89,31 @@ router.post('/', function (req, res, next) {
             }
         });
     }
+});
+
+router.post('/fetch', function (req, res, next) {
+    jwt.verifyLogin(req, res, function () {
+        var filter = req.body.filter || {}
+        Warranty.count(filter, function (err, count) {
+            if (err) {
+                res.error('Query failed', err);
+            } else {
+                var skip = req.body.skip || 0
+                var limit = req.body.limit || 10
+                var sort = req.body.sort || {created_at: -1}
+                Warranty.fetch(filter, skip, limit, sort, function (err, result) {
+                    if (err) {
+                        res.error('Query failed', err);
+                    } else {
+                        res.return('Query successfully', {
+                            result: result,
+                            count: count
+                        });
+                    }
+                });
+            }
+        });
+    });
 });
 
 router.delete('/:id', function (req, res, next) {
