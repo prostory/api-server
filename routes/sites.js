@@ -16,7 +16,13 @@ router.get('/', function (req, res, next) {
 router.post('/fetch', function (req, res, next) {
     jwt.verifyLogin(req, res, function () {
         var filter = req.body.filter || {}
-        Site.count(filter, function (err, count) {
+        Object.keys(filter).forEach((key)=> {
+            if (typeof(filter[key]) === 'string'
+                && filter[key].indexOf('/') === 0) {
+                filter[key] = eval(filter[key])
+            }
+        });
+        Site.countDocuments(filter, function (err, count) {
             if (err) {
                 res.error('Query failed', err);
             } else {

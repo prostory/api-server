@@ -94,7 +94,13 @@ router.post('/', function (req, res, next) {
 router.post('/fetch', function (req, res, next) {
     jwt.verifyLogin(req, res, function () {
         var filter = req.body.filter || {}
-        Warranty.count(filter, function (err, count) {
+        Object.keys(filter).forEach((key)=> {
+            if (typeof(filter[key]) === 'string'
+                && filter[key].indexOf('/') === 0) {
+                filter[key] = eval(filter[key])
+            }
+        });
+        Warranty.countDocuments(filter, function (err, count) {
             if (err) {
                 res.error('Query failed', err);
             } else {
