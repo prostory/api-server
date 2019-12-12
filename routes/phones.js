@@ -30,6 +30,16 @@ router.get('/latest', function (req, res, next) {
     })
 });
 
+router.get('/brands', function (req, res, next) {
+    Phone.findAllBrands(function (err, result) {
+        if (err) {
+            res.error('Query failed', err);
+        } else {
+            res.return('Query successfully', result);
+        }
+    })
+});
+
 router.get('/:id', function (req, res, next) {
     Phone.findById(req.params.id, function (err, result) {
         if (result) {

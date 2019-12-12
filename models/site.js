@@ -1,7 +1,8 @@
 var mongoose = require('../common/db');
 
 var Site = new mongoose.Schema({
-    name: {type: String, required: true},
+    brand: {type: String, required: true, default: 'Condor'},
+    name: {type: String, required: true, unique: true},
     address: {type: String, required: true},
     long: {type: Number, required: true},
     lat: {type: Number, required: true},
@@ -9,8 +10,8 @@ var Site = new mongoose.Schema({
     updated_at: {type: Date, default: Date.now}
 });
 
-Site.statics.findAll = function (callback) {
-    this.find({}, callback);
+Site.statics.findByBrand = function (brand, callback) {
+    this.find({brand: brand}, callback);
 };
 
 Site.statics.fetch = function (filter, skip, limit, sort, callback) {

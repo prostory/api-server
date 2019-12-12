@@ -80,6 +80,7 @@ root: [http://106.54.193.117/api/](http://106.54.193.117/api/)
 | :----: | :------------: | :----------------------------------------------------------: | :-------: | ---------------------------- |
 |  GET   |       /        |                              {}                              | [{Phone}] | 获取所有手机信息             |
 |  GET   |    /latest     |                              {}                              |  {Phone}  | 获取最近发布的手机信息       |
+|  GET   |    /brands     |                              {}                              |  {Brand}  | 获取所有手机品牌             |
 |  GET   |      /:id      |                              {}                              |  {Phone}  | 获取指定id的手机信息         |
 |  GET   | /:brand/:model |                              {}                              |  {Phone}  | 获取指定品牌和型号的手机信息 |
 |  POST  |       /        | {token, brand, model, [appearance, publish, published, warranty_duration]} |  {Phone}  | 创建新的手机                 |
@@ -104,13 +105,13 @@ root: [http://106.54.193.117/api/](http://106.54.193.117/api/)
 
 接口定义如下：
 
-|  方法  |  接口  |                参数                |  返回值  | 功能                     |
-| :----: | :----: | :--------------------------------: | :------: | ------------------------ |
-|  GET   |   /    |                 {}                 | [{Site}] | 获取所有网点信息         |
-|  POST  | /fetch | {token, filter, skip, limit, sort} | [{Site}] | 根据查询条件获取网点信息 |
-|  POST  |   /    | {token, name, address, long, lat}  |  {Site}  | 创建新网点               |
-|  PUT   |  /:id  | {token, name, address, long, lat}  |    {}    | 更新指定id的网点信息     |
-| DELETE |  /:id  |              {token}               |    {}    | 删除指定id的网点信息     |
+|  方法  |  接口   |                参数                |  返回值  | 功能                       |
+| :----: | :-----: | :--------------------------------: | :------: | -------------------------- |
+|  GET   | /:brand |              {brand}               | [{Site}] | 获取指定手机品牌的维修网点 |
+|  POST  | /fetch  | {token, filter, skip, limit, sort} | [{Site}] | 根据查询条件获取网点信息   |
+|  POST  |    /    | {token, name, address, long, lat}  |  {Site}  | 创建新网点                 |
+|  PUT   |  /:id   | {token, name, address, long, lat}  |    {}    | 更新指定id的网点信息       |
+| DELETE |  /:id   |              {token}               |    {}    | 删除指定id的网点信息       |
 
 #### 电子保卡(/warranties)
 

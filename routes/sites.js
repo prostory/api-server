@@ -3,8 +3,8 @@ var router = express.Router();
 var jwt = require('../common/jwt');
 var Site = require('../models/site');
 
-router.get('/', function (req, res, next) {
-    Site.findAll(function (err, result) {
+router.get('/:brand', function (req, res, next) {
+    Site.findByBrand(req.params.brand, function (err, result) {
         if (err) {
             res.error('Query failed', err);
         } else {
@@ -46,7 +46,9 @@ router.post('/fetch', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
     jwt.verifyLogin(req, res, function () {
-        if (!req.body.name) {
+        if (!req.body.brand) {
+            res.error('Brand is empty');
+        } else if (!req.body.name) {
             res.error('Name is empty');
         } else if (!req.body.address) {
             res.error('Address is empty');
@@ -54,6 +56,7 @@ router.post('/', function (req, res, next) {
             res.error('Longitude or latitude is empty');
         } else {
             var site = new Site({
+                brand: req.body.brand,
                 name: req.body.name,
                 address: req.body.address,
                 long: req.body.long,
@@ -72,7 +75,9 @@ router.post('/', function (req, res, next) {
 
 router.put('/:id', function (req, res, next) {
     jwt.verifyLogin(req, res, function () {
-        if (!req.body.name) {
+        if (!req.body.brand) {
+            res.error('Brand is empty');
+        } else if (!req.body.name) {
             res.error('Name is empty');
         } else if (!req.body.address) {
             res.error('Address is empty');
@@ -80,6 +85,7 @@ router.put('/:id', function (req, res, next) {
             res.error('Longitude or latitude is empty');
         } else {
             Site.updateInfo(req.params.id, {
+                brand: req.body.brand,
                 name: req.body.name,
                 address: req.body.address,
                 long: req.body.long,
