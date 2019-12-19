@@ -4,7 +4,7 @@ var jwt = require('../common/jwt');
 var Phone = require('../models/phone');
 var Instruction = require('../models/instruction');
 var crypto = require('crypto');
-
+var marked = require('marked');
 
 /**
  * 返回所有电子说明书
@@ -89,16 +89,56 @@ router.get('/phones/:brand/:model/:lang', function (req, res, next) {
             Instruction.findByPhoneId(result._id, function (err, result) {
                 if (result.length > 0) {
                     var languages = result.map(function (t) {
-                        return t.lang
+                        return t.lang;
                     });
-                    var index = languages.indexOf(req.params.lang)
+                    var index = languages.indexOf(req.params.lang);
                     if (index < 0) {
-                        index = languages.indexOf('en')
+                        index = languages.indexOf('en');
                     }
                     if (index < 0) {
-                        index = 0
+                        index = 0;
                     }
                     res.return('Query successfully', result[index]);
+                } else {
+                    res.error('Instruction is not exist');
+                }
+            });
+        } else {
+            res.error('Phone is not exist');
+        }
+    });
+});
+
+/**
+ * 返回指定语言的brand和model手机的电子说明书
+ */
+router.get('/release/:brand/:model/:lang', function (req, res, next) {
+    Phone.findByBrandAndModel(req.params.brand, req.params.model, function (err, result) {
+        if (result) {
+            Instruction.findByPhoneId(result._id, function (err, result) {
+                if (result.length > 0) {
+                    var languages = result.map(function (t) {
+                        return t.lang;
+                    });
+                    var index = languages.indexOf(req.params.lang);
+                    if (index < 0) {
+                        index = languages.indexOf('en');
+                    }
+                    if (index < 0) {
+                        index = 0;
+                    }
+                    var data = result[index];
+                    if (data.items) {
+                        data.items.forEach(function (item) {
+                            if (item.pages) {
+                                item.pages.forEach(function (page) {
+                                    page.description = marked(page.description);
+                                });
+                            }
+                        });
+                    }
+
+                    res.return('Query successfully', data);
                 } else {
                     res.error('Instruction is not exist');
                 }
