@@ -7,6 +7,9 @@ var Warranty = new mongoose.Schema({
     imei: {type: String, required: true, unique: true},
     sn: {type: String, required: true, unique: true},
     phone_no: {type: String, required: true},
+    brand: {type: String, required: true},
+    model: {type: String, required: true},
+    ip: {type: String, required: true},
     created_at: {type: Date, default: Date.now}
 });
 
@@ -21,15 +24,15 @@ Warranty.statics.findByPhoneId = function(phone_id, callback) {
 };
 
 Warranty.statics.findByPhoneNo = function(phone_no, callback) {
-    this.find({phone_no: phone_no}).populate('phone').exec(callback);
+    this.find({phone_no: phone_no}).exec(callback);
 }
 
 Warranty.statics.findByImei = function (imei, callback) {
-    this.findOne({imei: imei}).populate('phone').exec(callback);
+    this.findOne({imei: imei}).exec(callback);
 };
 
 Warranty.statics.findBySN = function(sn, callback) {
-    this.findOne({sn: sn}).populate('phone').exec(callback);
+    this.findOne({sn: sn}).exec(callback);
 }
 
 Warranty.statics.deleteById = function (id, callback) {

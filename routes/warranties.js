@@ -54,17 +54,17 @@ router.get('/phones/:brand/:model', function (req, res, next) {
 
 router.post('/', function (req, res, next) {
     if (!req.body.brand) {
-        res.error('Phone brand is empty');
+        res.error('Phone brand is required');
     } else if (!req.body.model) {
-        res.error('Phone model is empty');
+        res.error('Phone model is required');
     } else if (!req.body.paper) {
-        res.error('The warranty of paper is not exist');
+        res.error('The warranty of paper is required');
     } else if (!req.body.imei) {
-        res.error('IMEI is empty');
+        res.error('IMEI is required');
     } else if (!req.body.sn) {
-        res.error('SN is empty');
+        res.error('SN is required');
     } else if (!req.body.phone_no) {
-        res.error('Phone number is empty');
+        res.error('Phone number is required');
     } else {
         Phone.findByBrandAndModel(req.body.brand, req.body.model, function (err, phone) {
             if (phone) {
@@ -73,7 +73,10 @@ router.post('/', function (req, res, next) {
                     paper: req.body.paper,
                     imei: req.body.imei,
                     sn: req.body.sn,
-                    phone_no: req.body.phone_no
+                    phone_no: req.body.phone_no,
+                    brand: req.body.brand,
+                    model: req.body.model,
+                    ip: getClientIP(req)
                 });
                 warranty.save(function (err, warranty) {
                     if (err) {
@@ -133,5 +136,24 @@ router.delete('/:id', function (req, res, next) {
         });
     });
 });
+
+
+function getClientIP(req) {
+    let ip = req.headers['X-Forwarded-For'];
+    if (ip && ip.toLowerCase() !== "unknown") {
+        let index = ip.indexOf(',');
+        if (index >= 0) {
+            return ip.substring(0, index);
+        } else {
+            return ip;
+        }
+    }
+
+    ip = req.connection.remoteAddress ||
+      req.socket.remoteAddress ||
+      req.connection.socket.remoteAddress;
+
+    return ip === '::1' ? '127.0.0.1' : ip;
+};
 
 module.exports = router;

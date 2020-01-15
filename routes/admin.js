@@ -14,7 +14,8 @@ router.post('/login', function (req, res, next) {
     } else {
         res.return('Login successfully', {
             token: jwt.generateToken({user: admin.username}, 12),
-            user: admin.username
+            user: admin.username,
+            expiry: 12
         });
     }
 });
