@@ -30,7 +30,7 @@ app.use(cookieParser());
 // 允许跨域
 app.all('/api/*', function (req, res, next) {
     res.header("Access-Control-Allow-Origin","*");
-    res.header("Access-Control-Allow-Headers","Origin,Content-Type,Accept,token,X-Requested-With");
+    res.header("Access-Control-Allow-Headers","Origin,Content-Type,Accept,token,X-Requested-With,Host,X-Real-IP,X-Forwarded-For");
     res.header("Access-Control-Allow-Methods","DELETE,PUT,POST,GET,OPTIONS");
     if (req.method.toLowerCase() === 'options')
         res.sendStatus(200);

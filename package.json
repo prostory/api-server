@@ -23,5 +23,9 @@
     "morgan": "~1.9.1",
     "pug": "2.0.0-beta11",
     "sharp": "^0.23.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.2",
+    "prettier": "^1.19.1"
   }
 }
