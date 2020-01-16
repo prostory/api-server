@@ -30,7 +30,6 @@ app.use(cookieParser());
 
 // 允许跨域
 app.all("/api/*", function(req, res, next) {
-  console.log("headers: " + JSON.stringify(req.headers));
   res.header("Access-Control-Allow-Origin", "*");
   res.header(
     "Access-Control-Allow-Headers",
