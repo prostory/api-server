@@ -121,25 +121,28 @@ root: [http://106.54.193.117/api/](http://106.54.193.117/api/)
 {
     "_id": "5de865df1b2e7b53e4dde7d8",			// id号
     "phone": "5de864a72423d552d5803351",		// 对应的手机id号
+    "brand": "Xiaomi",							// 手机品牌
+    "model": "MI 6",							// 手机型号
     "paper": "a.jpg",							// 纸质保卡（图片路径）
     "imei": "112323124",						// IMEI号
     "sn": "34324234235",						// SN号
     "phone_no": "13424895679",					// 电话号码
+    "ip": "127.0.0.1",							// IP地址
     "created_at": "2019-12-05T02:05:19.229Z"	// 创建时间
 }
 ```
 
 接口定义如下：
 
-|  方法  |         接口          |                   参数                    |    返回值    | 功能                               |
-| :----: | :-------------------: | :---------------------------------------: | :----------: | ---------------------------------- |
-|  POST  |        /fetch         |    {token, filter, skip, limit, sort}     | [{Warranty}] | 根据查询条件获取保卡信息           |
-|  GET   |      /imei/:imei      |                    {}                     |  {Warranty}  | 获取指定IMEI号的保卡信息           |
-|  GET   |        /sn/:sn        |                    {}                     |  {Warranty}  | 获取指定SN号的保卡信息             |
-|  GET   |  /phoneNo/:phone_no   |                    {}                     | [{Warranty}] | 获取指定电话号码的保卡信息         |
-|  GET   | /phones/:brand/:model |                    {}                     | [{Warranty}] | 获取指定品牌和型号的手机的保卡信息 |
-|  POST  |           /           | {brand, model, paper, imei, sn, phone_no} |  {Warranty}  | 创建电子保卡                       |
-| DELETE |         /:id          |                  {token}                  |      {}      | 删除电子保卡                       |
+|  方法  |         接口          |                     参数                      |    返回值    | 功能                               |
+| :----: | :-------------------: | :-------------------------------------------: | :----------: | ---------------------------------- |
+|  POST  |        /fetch         |      {token, filter, skip, limit, sort}       | [{Warranty}] | 根据查询条件获取保卡信息           |
+|  GET   |      /imei/:imei      |                      {}                       |  {Warranty}  | 获取指定IMEI号的保卡信息           |
+|  GET   |        /sn/:sn        |                      {}                       |  {Warranty}  | 获取指定SN号的保卡信息             |
+|  GET   |  /phoneNo/:phone_no   |                      {}                       | [{Warranty}] | 获取指定电话号码的保卡信息         |
+|  GET   | /phones/:brand/:model |                      {}                       | [{Warranty}] | 获取指定品牌和型号的手机的保卡信息 |
+|  POST  |           /           | {brand, model, paper, imei, sn, phone_no, ip} |  {Warranty}  | 创建电子保卡                       |
+| DELETE |         /:id          |                    {token}                    |      {}      | 删除电子保卡                       |
 
 #### 电子说明书（/instructions）
 
