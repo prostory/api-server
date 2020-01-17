@@ -144,6 +144,73 @@ root: [http://106.54.193.117/api/](http://106.54.193.117/api/)
 |  POST  |           /           | {brand, model, paper, imei, sn, phone_no, ip} |  {Warranty}  | 创建电子保卡                       |
 | DELETE |         /:id          |                    {token}                    |      {}      | 删除电子保卡                       |
 
+
+#### 应用程序（/applications）
+模型定义如下：
+```json
+{
+   "_id": "5e2151d08bae82074dc01c96",					// id号
+   "package": "com.condor.weather",						// 应用包名
+   "title": "Weather",									// 应用名称
+   "description": "Weather for condor phones",			// 描述
+    "history": [										// 历史版本
+        {
+            "_id": "5e2151e58bae82074dc01c97",
+            "version_code": 1,							// 版本号
+            "version": "1.0",							// 版本名称
+            "url": 	"http://127.0.0.1:3000/api/upload/apk/com.condor.weather_1.0.apk",  // apk下载地址
+            "details": "The first version",				// 更新内容
+            "created_at": "2020-01-17T06:19:17.352Z",	// 发布时间
+        }
+    ],
+    "created_at": "2020-01-17T06:18:56.518Z",			// 应用创建时间
+    "updated_at": "2020-01-17T06:19:17.350Z",			// 更新时间
+}
+```
+根据包名和版本号返回需要更新的版本信息
+
+(`/applications/available/com.condor.weather/0`)获取成功返回:
+
+```json
+{
+    "status": 0,
+    "message": "Query successfully",
+    "data": {
+        "description": "Weather for condor phones",
+        "package": "com.condor.weather",
+        "title": "Weather",
+        "version": "1.0",
+        "versionCode": 1,
+        "url": "http://127.0.0.1:3000/api/upload/apk/com.condor.weather_1.0.apk",
+        "details": "The first version",
+        "created_at": "2020-01-17T06:19:17.352Z"
+    }
+}
+```
+
+(`/applications/available/com.condor.weather/1`)获取失败返回：
+
+```json
+{
+    "status": 2,
+    "message": "Query failed",
+    "reason": null
+}
+```
+
+接口定义如下：
+
+|  方法  |             接口             |                      参数                      |     返回值      | 功能                                     |
+| :----: | :--------------------------: | :--------------------------------------------: | :-------------: | ---------------------------------------- |
+|  GET   |              /               |                    {token}                     | [{Application}] | 返回所有应用                             |
+|  GET   |             /:id             |                    {token}                     |  {Application}  | 返回指定id的应用                         |
+|  GET   | /available/:package/:version |                       {}                       |    {Version}    | 根据包名和版本号，返回需要更新的版本信息 |
+|  POST  |              /               |     {token, title, package, [description]}     |  {Application}  | 创建应用                                 |
+|  PUT   |             /:id             |     {token, title, package, [description]}     |       {}        | 修改应用信息                             |
+|  POST  |         /version/:id         | {token, url, version, version_code, [details]} |       {}        | 发布应用版本                             |
+| DELETE |         /version/:id         |             {token, version_code}              |       {}        | 删除应用版本                             |
+| DELETE |             /:id             |                    {token}                     |       {}        | 删除应用                                 |
+
 #### 电子说明书（/instructions）
 
 模型定义如下：
