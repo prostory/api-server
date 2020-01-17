@@ -41,11 +41,11 @@ router.post("/upload/", function(req, res, next) {
   });
 });
 
-router.post("/upload/:name", function(req, res, next) {
+router.post("/upload/:type/:name", function(req, res, next) {
   jwt.verifyLogin(req, res, function() {
     var form = new formidable.IncomingForm();
     form.encoding = "utf-8";
-    form.uploadDir = "public/upload/" + req.params.name + date() + "/";
+    form.uploadDir = "public/upload/" + req.params.type + "/";
     form.keepExtensions = true;
 
     if (!fs.existsSync(form.uploadDir)) {
@@ -54,9 +54,14 @@ router.post("/upload/:name", function(req, res, next) {
 
     var files = [];
 
+    form.on("fileBegin", function(name, file) {
+      file.path =
+        pathParser.dirname(file.path) + pathParser.sep + req.params.name;
+    });
+
     form.on("file", function(field, file) {
       files.push({
-        url: global.base_url + file.path.replace(/^public/, ""),
+        url: global.base_url + file.path.replace(/^public\//, ""),
         field: field,
         file: file
       });

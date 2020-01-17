@@ -89,7 +89,8 @@ router.post("/version/:id", function(req, res, next) {
         {
           url: req.body.url,
           version: req.body.version,
-          version_code: req.body.version_code
+          version_code: req.body.version_code,
+          details: req.body.details
         },
         function(err, result) {
           if (result) {
