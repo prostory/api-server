@@ -141,7 +141,7 @@ router.delete("/:id", function(req, res, next) {
 });
 
 function getClientIP(req) {
-  let ip = req.headers["x-real-ip"];
+  let ip = req.headers["x-forwarded-for"];
   if (ip && ip.toLowerCase() !== "unknown") {
     let index = ip.indexOf(",");
     if (index >= 0) {
