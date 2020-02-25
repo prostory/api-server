@@ -100,18 +100,38 @@ root: [http://106.54.193.117/api/](http://106.54.193.117/api/)
     "lat": 2222,
     "created_at": "2019-12-04T11:08:59.330Z",	// 创建时间
     "updated_at": "2019-12-04T11:11:18.395Z",	// 更新时间
+	"locales": [								// 翻译
+        {
+            "_id": "5e54c6557a032a4f84a5da89",
+            "lang": "en",
+            "name": "Shenzhen center park",
+            "address": "Shenzen center park"
+        },
+        {
+            "_id": "5e54c6557a032a4f84a5da88",
+            "lang": "fr",
+            "name": "Shenzhen center park",
+            "address": "Shenzhen center park"
+        },
+        {
+            "_id": "5e54c6557a032a4f84a5da87",
+            "lang": "ar",
+            "name": "Shenzhen center park",
+            "address": "Shenzhen center park"
+        }
+    ]
 }
 ```
 
 接口定义如下：
 
-|  方法  |  接口   |                参数                |  返回值  | 功能                       |
-| :----: | :-----: | :--------------------------------: | :------: | -------------------------- |
-|  GET   | /:brand |              {brand}               | [{Site}] | 获取指定手机品牌的维修网点 |
-|  POST  | /fetch  | {token, filter, skip, limit, sort} | [{Site}] | 根据查询条件获取网点信息   |
-|  POST  |    /    | {token, name, address, long, lat}  |  {Site}  | 创建新网点                 |
-|  PUT   |  /:id   | {token, name, address, long, lat}  |    {}    | 更新指定id的网点信息       |
-| DELETE |  /:id   |              {token}               |    {}    | 删除指定id的网点信息       |
+|  方法  |  接口   |                    参数                    |  返回值  | 功能                       |
+| :----: | :-----: | :----------------------------------------: | :------: | -------------------------- |
+|  GET   | /:brand |                  {brand}                   | [{Site}] | 获取指定手机品牌的维修网点 |
+|  POST  | /fetch  |     {token, filter, skip, limit, sort}     | [{Site}] | 根据查询条件获取网点信息   |
+|  POST  |    /    | {token, name, address, long, lat, locales} |  {Site}  | 创建新网点                 |
+|  PUT   |  /:id   | {token, name, address, long, lat, locales} |    {}    | 更新指定id的网点信息       |
+| DELETE |  /:id   |                  {token}                   |    {}    | 删除指定id的网点信息       |
 
 #### 电子保卡(/warranties)
 
