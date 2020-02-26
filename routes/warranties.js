@@ -2,7 +2,11 @@ var express = require("express");
 var router = express.Router();
 var jwt = require("../common/jwt");
 var Warranty = require("../models/warranty");
+var Country = require("../models/country");
 var Phone = require("../models/phone");
+var geoIP = require("offline-geo-from-ip");
+var countries = require("i18n-iso-countries");
+countries.registerLocale(require("i18n-iso-countries/langs/en.json"));
 
 router.get("/imei/:imei", function(req, res, next) {
   Warranty.findByImei(req.params.imei, function(err, result) {
@@ -88,7 +92,15 @@ router.post("/", function(req, res, next) {
           if (err) {
             res.error("Create failed", err);
           } else {
-            res.return("Create successfully", warranty);
+            var location = geoIP.allData(warranty.ip);
+            if (location && location.country) {
+              var alpha3 = countries.getAlpha3Code(location.country, "en");
+              Country.increase(alpha3, function() {
+                res.return("Create successfully", warranty);
+              });
+            } else {
+              res.return("Create successfully", warranty);
+            }
           }
         });
       } else {
@@ -123,6 +135,44 @@ router.post("/fetch", function(req, res, next) {
             });
           }
         });
+      }
+    });
+  });
+});
+
+router.post("/statistics", function(req, res, next) {
+  jwt.verifyLogin(req, res, function() {
+    Country.findAll(function(err, result) {
+      if (err) {
+        res.error("Query failed", err);
+      } else {
+        if (result.length === 0) {
+          Warranty.findAll(function(err, result) {
+            if (result.length > 0) {
+              var data = {};
+              result.forEach(function(warranty) {
+                var location = geoIP.allData(warranty.ip);
+                if (location && location.country) {
+                  var alpha3 = countries.getAlpha3Code(location.country, "en");
+                  var country = data[alpha3];
+                  if (country) {
+                    country.activation_count++;
+                  } else {
+                    data[alpha3] = {
+                      alpha3: alpha3,
+                      activation_count: 0
+                    };
+                  }
+                }
+              });
+              Country.fromArray([...data.values()], function(err, result) {
+                res.return("Query successfully", result);
+              });
+            }
+          });
+        } else {
+          res.return("Query successfully", result);
+        }
       }
     });
   });
