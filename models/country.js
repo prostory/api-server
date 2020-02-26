@@ -9,8 +9,6 @@ var Country = new mongoose.Schema({
 
 Country.index({ alpha3: 1, type: -1 });
 
-var CountryModel = mongoose.model("country", Country);
-
 Country.statics.findAll = function(callback) {
   this.find({}, callback);
 };
@@ -31,12 +29,9 @@ Country.statics.increase = function(alpha3, callback) {
         callback
       );
     } else {
-      var model = new CountryModel({
-        alpha3: alpha3
-      });
-      CountryModel.save(model, callback);
+      Country.create([{ alpha3: alpha3 }], callback);
     }
   });
 };
 
-module.exports = CountryModel;
+module.exports = mongoose.model("country", Country);

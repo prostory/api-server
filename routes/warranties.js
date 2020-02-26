@@ -165,7 +165,11 @@ router.post("/statistics", function(req, res, next) {
                   }
                 }
               });
-              Country.fromArray([...data.values()], function(err, result) {
+              var array = [];
+              for (var key in data) {
+                array.push(data[key]);
+              }
+              Country.fromArray(array, function(err, result) {
                 res.return("Query successfully", result);
               });
             }
