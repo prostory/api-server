@@ -125,13 +125,13 @@ root: [http://106.54.193.117/api/](http://106.54.193.117/api/)
 
 接口定义如下：
 
-|  方法  |  接口   |                    参数                    |  返回值  | 功能                       |
-| :----: | :-----: | :----------------------------------------: | :------: | -------------------------- |
-|  GET   | /:brand |                  {brand}                   | [{Site}] | 获取指定手机品牌的维修网点 |
-|  POST  | /fetch  |     {token, filter, skip, limit, sort}     | [{Site}] | 根据查询条件获取网点信息   |
-|  POST  |    /    | {token, name, address, long, lat, locales} |  {Site}  | 创建新网点                 |
-|  PUT   |  /:id   | {token, name, address, long, lat, locales} |    {}    | 更新指定id的网点信息       |
-| DELETE |  /:id   |                  {token}                   |    {}    | 删除指定id的网点信息       |
+|  方法  |  接口   |                    参数                    |     返回值      | 功能                       |
+| :----: | :-----: | :----------------------------------------: | :-------------: | -------------------------- |
+|  GET   | /:brand |                  {brand}                   |    [{Site}]     | 获取指定手机品牌的维修网点 |
+|  POST  | /fetch  |        {filter, skip, limit, sort}         | [{Site}, count] | 根据查询条件获取网点信息   |
+|  POST  |    /    | {token, name, address, long, lat, locales} |     {Site}      | 创建新网点                 |
+|  PUT   |  /:id   | {token, name, address, long, lat, locales} |       {}        | 更新指定id的网点信息       |
+| DELETE |  /:id   |                  {token}                   |       {}        | 删除指定id的网点信息       |
 
 #### 电子保卡(/warranties)
 
