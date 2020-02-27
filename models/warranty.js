@@ -10,6 +10,7 @@ var Warranty = new mongoose.Schema({
   brand: { type: String, required: true },
   model: { type: String, required: true },
   ip: { type: String, required: true },
+  location: { type: ObjectId, ref: "location" },
   created_at: { type: Date, default: Date.now }
 });
 
@@ -24,6 +25,7 @@ Warranty.statics.fetch = function(filter, skip, limit, sort, callback) {
     .skip(skip)
     .limit(limit)
     .sort(sort)
+    .populate("location")
     .exec(callback);
 };
 

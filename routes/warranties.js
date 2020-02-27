@@ -4,6 +4,7 @@ var jwt = require("../common/jwt");
 var Warranty = require("../models/warranty");
 var Country = require("../models/country");
 var Phone = require("../models/phone");
+var Location = require("../models/location");
 var geoIP = require("offline-geo-from-ip");
 var countries = require("i18n-iso-countries");
 countries.registerLocale(require("i18n-iso-countries/langs/en.json"));
@@ -92,11 +93,14 @@ router.post("/", function(req, res, next) {
           if (err) {
             res.error("Create failed", err);
           } else {
-            var location = geoIP.allData(warranty.ip);
-            if (location && location.country) {
-              var alpha3 = countries.getAlpha3Code(location.country, "en");
+            var data = geoIP.allData(warranty.ip);
+            if (data && data.country) {
+              var alpha3 = countries.getAlpha3Code(data.country, "en");
               Country.increase(alpha3, function() {
-                res.return("Create successfully", warranty);
+                var location = new Location(data);
+                Location.save(location, function() {
+                  res.return("Create successfully", warranty);
+                });
               });
             } else {
               res.return("Create successfully", warranty);
@@ -140,13 +144,36 @@ router.post("/fetch", function(req, res, next) {
   });
 });
 
-router.post("/statistics", function(req, res, next) {
+router.post("/repair/:name", function(req, res, next) {
   jwt.verifyLogin(req, res, function() {
-    Country.findAll(function(err, result) {
-      if (err) {
-        res.error("Query failed", err);
-      } else {
-        if (result.length === 0) {
+    if (req.params.name === "location") {
+      Location.deleteMany({}, function(err) {
+        if (!err) {
+          Warranty.findAll(function(err, result) {
+            if (result.length > 0) {
+              var data = [];
+              result.forEach(function(warranty) {
+                var location = geoIP.allData(warranty.ip);
+                if (location && location.country) {
+                  data.push(location);
+                }
+              });
+              Country.fromArray(data, function(err, result) {
+                if (!err) {
+                  res.return("Repaired successfully", result);
+                } else {
+                  res.error("Repaired failed", err);
+                }
+              });
+            }
+          });
+        } else {
+          res.error("Repaired failed", err);
+        }
+      });
+    } else if (req.params.name === "country") {
+      Country.deleteMany({}, function(err) {
+        if (!err) {
           Warranty.findAll(function(err, result) {
             if (result.length > 0) {
               var data = {};
@@ -170,13 +197,29 @@ router.post("/statistics", function(req, res, next) {
                 array.push(data[key]);
               }
               Country.fromArray(array, function(err, result) {
-                res.return("Query successfully", result);
+                if (!err) {
+                  res.return("Repaired successfully", result);
+                } else {
+                  res.error("Repaired failed", err);
+                }
               });
             }
           });
         } else {
-          res.return("Query successfully", result);
+          res.error("Repaired failed", err);
         }
+      });
+    }
+  });
+});
+
+router.post("/statistics", function(req, res, next) {
+  jwt.verifyLogin(req, res, function() {
+    Country.findAll(function(err, result) {
+      if (err) {
+        res.error("Query failed", err);
+      } else {
+        res.return("Query successfully", result);
       }
     });
   });
