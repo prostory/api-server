@@ -24,6 +24,14 @@ var Location = new mongoose.Schema({
 
 Location.index({ ip: 1, type: -1 });
 
+Location.statics.add = function(location, callback) {
+  Location.findOne({ ip: location.ip }, function(err, result) {
+    if (!result) {
+      Location.create(location, callback);
+    }
+  });
+};
+
 Location.statics.fromArray = function(array, callback) {
   this.create(array, callback);
 };

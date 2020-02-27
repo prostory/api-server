@@ -95,10 +95,10 @@ router.post("/", function(req, res, next) {
           } else {
             var data = geoIP.allData(warranty.ip);
             if (data && data.country) {
+              data.ip = warranty.ip;
               var alpha3 = countries.getAlpha3Code(data.country, "en");
               Country.increase(alpha3, function() {
-                var location = new Location(data);
-                Location.save(location, function() {
+                Location.add(data, function() {
                   res.return("Create successfully", warranty);
                 });
               });
@@ -151,15 +151,21 @@ router.post("/repair/:name", function(req, res, next) {
         if (!err) {
           Warranty.findAll(function(err, result) {
             if (result.length > 0) {
-              var data = [];
+              var data = {};
               result.forEach(function(warranty) {
-                var location = geoIP.allData(warranty.ip);
-                if (location && location.country) {
-                  location.ip = warranty.ip;
-                  data.push(location);
+                if (!data[warranty.ip]) {
+                  var location = geoIP.allData(warranty.ip);
+                  if (location && location.country) {
+                    location.ip = warranty.ip;
+                    data[location.ip] = location;
+                  }
                 }
               });
-              Location.fromArray(data, function(err, result) {
+              var array = [];
+              for (var key in data) {
+                array.push(data[key]);
+              }
+              Location.fromArray(array, function(err, result) {
                 if (!err) {
                   res.return("Repaired successfully", result);
                 } else {
