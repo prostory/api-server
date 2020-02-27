@@ -160,7 +160,7 @@ router.post("/statistics", function(req, res, next) {
                   } else {
                     data[alpha3] = {
                       alpha3: alpha3,
-                      activation_count: 0
+                      activation_count: 1
                     };
                   }
                 }

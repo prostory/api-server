@@ -2,7 +2,7 @@ var mongoose = require("../common/db");
 
 var Country = new mongoose.Schema({
   alpha3: { type: String, required: true, unique: true },
-  activation_count: { type: Number, default: 0 },
+  activation_count: { type: Number, default: 1 },
   created_at: { type: Date, default: Date.now },
   updated_at: { type: Date, default: Date.now }
 });
