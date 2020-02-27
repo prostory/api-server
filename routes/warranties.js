@@ -158,7 +158,7 @@ router.post("/repair/:name", function(req, res, next) {
                   data.push(location);
                 }
               });
-              Country.fromArray(data, function(err, result) {
+              Location.fromArray(data, function(err, result) {
                 if (!err) {
                   res.return("Repaired successfully", result);
                 } else {
