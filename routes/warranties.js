@@ -5,9 +5,11 @@ var Warranty = require("../models/warranty");
 var Country = require("../models/country");
 var Phone = require("../models/phone");
 var Location = require("../models/location");
-var geoIP = require("offline-geo-from-ip");
+var ip2loc = require("ip2location-nodejs");
 var countries = require("i18n-iso-countries");
 countries.registerLocale(require("i18n-iso-countries/langs/en.json"));
+
+ip2loc.IP2Location_init("./data/IP2LOCATION-LITE-DB11.BIN");
 
 router.get("/imei/:imei", function(req, res, next) {
   Warranty.findByImei(req.params.imei, function(err, result) {
@@ -93,7 +95,7 @@ router.post("/", function(req, res, next) {
           if (err) {
             res.error("Create failed", err);
           } else {
-            var data = geoIP.allData(warranty.ip);
+            var data = ip2loc.IP2Location_get_all(warranty.ip);
             if (data && data.country) {
               data.ip = warranty.ip;
               var alpha3 = countries.getAlpha3Code(data.country, "en");
@@ -154,7 +156,7 @@ router.post("/repair/:name", function(req, res, next) {
               var data = {};
               result.forEach(function(warranty) {
                 if (!data[warranty.ip]) {
-                  var location = geoIP.allData(warranty.ip);
+                  var location = ip2loc.IP2Location_get_all(warranty.ip);
                   if (location && location.country) {
                     location.ip = warranty.ip;
                     data[location.ip] = location;
@@ -165,13 +167,14 @@ router.post("/repair/:name", function(req, res, next) {
               for (var key in data) {
                 array.push(data[key]);
               }
-              Location.fromArray(array, function(err, result) {
-                if (!err) {
-                  res.return("Repaired successfully", result);
-                } else {
-                  res.error("Repaired failed", err);
-                }
-              });
+              // Location.fromArray(array, function(err, result) {
+              //   if (!err) {
+              //     res.return("Repaired successfully", result);
+              //   } else {
+              //     res.error("Repaired failed", err);
+              //   }
+              // });
+              res.return("Repaired successfully", result);
             }
           });
         } else {
@@ -185,7 +188,7 @@ router.post("/repair/:name", function(req, res, next) {
             if (result.length > 0) {
               var data = {};
               result.forEach(function(warranty) {
-                var location = geoIP.allData(warranty.ip);
+                var location = ip2loc.IP2Location_get_all(warranty.ip);
                 if (location && location.country) {
                   var alpha3 = countries.getAlpha3Code(location.country, "en");
                   var country = data[alpha3];
