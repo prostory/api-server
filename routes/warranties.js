@@ -155,6 +155,7 @@ router.post("/repair/:name", function(req, res, next) {
               result.forEach(function(warranty) {
                 var location = geoIP.allData(warranty.ip);
                 if (location && location.country) {
+                  location.ip = warranty.ip;
                   data.push(location);
                 }
               });
